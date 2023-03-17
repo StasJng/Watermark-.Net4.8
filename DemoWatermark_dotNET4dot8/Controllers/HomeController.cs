@@ -16,7 +16,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
         {
             #region Initial
             //Define working folder
-            string WorkingDirectory = @"E:\0_docs\DemoWatermark_dotNET4dot8\DemoWatermark_dotNET4dot8\assets\watermark";
+            string WorkingDirectory = @"D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\assets\watermark";
             //Define watermark text
             string Copyright = "Copyright © 2023 - J.Star";
             #endregion
