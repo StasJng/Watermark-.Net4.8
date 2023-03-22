@@ -10,14 +10,23 @@
         align-items: center;
     }
 
+    .pos-center img {
+        max-width: 95%;
+        padding-bottom: 5px;
+    }
+
     .form-group {
         margin: 10px 0;
+    }
+
+    .box-qr {
+        margin-bottom: 10px;
     }
 </style>
 
 <h1>CreateQRCode</h1>
 
-<div id ="container" class="row">
+<div id="container" class="row">
     <div class="">
         <!--Text input form-->
         <div class="form-group">
@@ -29,13 +38,8 @@
         <!---->
         <br />
         <!--File input form-->
-        @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div>
-                @Html.TextBox("file", "", new { type = "file" }) <br />
-                <input type="submit" value="Upload" />
-            </div>
-        }
+        <input type="file" id="FileUpload1" />
+        <input type="button" id="btnUpload" value="Upload Files" onclick="uploadFileThenGenQR()" />
         <!---->
         <!--Single image-->
         <div id="singleImgFrame" class="container pos-center" style="visibility: hidden">
@@ -47,8 +51,11 @@
             <a id="downloadImageButton" href="" download="ticket.png" class="btn btn-primary">Download</a>
         </div>
         <!---->
+        <!--List images-->
+        <div class="row" id="listImgFrame"></div>
+        <!---->
     </div>
-</div>
+    </div>
 
 <script>
     function generateQR(inputId) {
@@ -74,4 +81,31 @@
             });
         }
     }
+
+    function uploadFileThenGenQR() {
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#FileUpload1").get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+
+            fileData.append(files[0].name, files[0]);
+
+            $.ajax({
+                url: '/Home/UploadFileThenGenQR',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    document.getElementById("listImgFrame").style.visibility = "visible";
+                    $('#listImgFrame').append(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    };
 </script>

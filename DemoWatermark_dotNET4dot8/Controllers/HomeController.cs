@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -225,79 +226,101 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 return "";
             }
         }
-        public ActionResult UploadFileThenGenQR(HttpPostedFileBase file)
+        public string UploadFileThenGenQR()
         {
-            #region Upload file
             //Define location
             var _environment = new SelfDefinedEnvironment();
             _environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
             _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
+            StringBuilder lstDisplay = new StringBuilder();
 
-            //Save file
-            string fileExtension = Path.GetExtension(file.FileName);
-
-            var path = Path.Combine(_environment.WebRootPath, file.FileName);
-
-            file.SaveAs(path);
-            #endregion
-
-            #region Generate QR code list
-            try
+            if (Request.Files.Count > 0)
             {
-                #region Read Data From imported file
-                DataTable dt = new DataTable();
-                dt = ReadImportExcelFile("Sheet1", Path.Combine(_environment.WebRootPath, file.FileName)); //Get Excel file with static path(saved above)
-
-                List<GenerateQRCodeModel> lstCode = (from DataRow row in dt.Rows select new GenerateQRCodeModel { QRCodeText = row["Code"].ToString() }).ToList(); //Select data in Excel ~ Table
-                #endregion
-
-                #region Generate QR list
-                var rowNum = 0;
-
-                //Get list QR
-                List<DisplayingCodeInfo> lstDisplay = new List<DisplayingCodeInfo>();
-                foreach (var code in lstCode)
+                try
                 {
-                    rowNum++;
-                    // Generate QR Image
-                    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(code.QRCodeText, QRCodeGenerator.ECCLevel.Q);
-                    QRCode qrCode = new QRCode(qrCodeData);
-                    Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
+                    #region Upload file
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    var path = Path.Combine(_environment.WebRootPath, files[0].FileName);
 
-                    Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+                    HttpPostedFileBase file = files[0];
+                    string fname;
 
-                    Graphics outputDemo = Graphics.FromImage(backgorundImage);
-                    outputDemo.DrawImage(qrCodeBitmap, 50, 50);
-
-                    using (MemoryStream ms = new MemoryStream())
+                    // Checking for Internet Explorer  
+                    if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                     {
-                        if (backgorundImage != null)
+                        string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                        fname = testfiles[testfiles.Length - 1];
+                    }
+                    else
+                    {
+                        fname = file.FileName;
+                    }
+
+                    //Save file
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    file.SaveAs(path);
+                    #endregion
+
+                    #region Read Data From imported file
+                    DataTable dt = new DataTable();
+                    dt = ReadImportExcelFile("Sheet1", Path.Combine(_environment.WebRootPath, file.FileName)); //Get Excel file with static path(saved above)
+
+                    List<GenerateQRCodeModel> lstCode = (from DataRow row in dt.Rows select new GenerateQRCodeModel { QRCodeText = row["Code"].ToString() }).ToList(); //Select data in Excel ~ Table
+                    #endregion
+
+                    #region Generate QR list
+                    var rowNum = 0;
+
+                    //Get list QR
+                    foreach (var code in lstCode)
+                    {
+                        rowNum++;
+                        // Generate QR Image
+                        QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                        QRCodeData qrCodeData = qrGenerator.CreateQrCode(code.QRCodeText, QRCodeGenerator.ECCLevel.Q);
+                        QRCode qrCode = new QRCode(qrCodeData);
+                        Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
+
+                        Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+
+                        Graphics outputDemo = Graphics.FromImage(backgorundImage);
+                        outputDemo.DrawImage(qrCodeBitmap, 50, 50);
+
+                        using (MemoryStream ms = new MemoryStream())
                         {
-                            backgorundImage.Save(ms, ImageFormat.Png);
-                            lstDisplay.Add(new DisplayingCodeInfo()
+                            if (backgorundImage != null)
                             {
-                                No = rowNum,
-                                QRCodeUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray()),
-                                LinkDownload = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray())
-                            });
+                                backgorundImage.Save(ms, ImageFormat.Png);
+                                var base64img = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+
+                                lstDisplay.Append("<div class='col-lg-3 col-md-4 col-sm-6 box-qr'>");
+                                lstDisplay.Append("<div class='pos-center'>");
+                                lstDisplay.Append("<img src= '" + base64img + "' />");
+                                lstDisplay.Append("</div>");
+                                lstDisplay.Append("<div class='pos-center'>");
+                                lstDisplay.Append("<a id='download-'" + rowNum + "' download='qr-" + rowNum + "' href='" + base64img + "' class='btn btn-primary'>Download</a>");
+                                lstDisplay.Append("</div>");
+                                lstDisplay.Append("</div>");
+                            }
                         }
                     }
+                    #endregion
+
+                    //Remove Excel file uploaded
+                    System.IO.File.Delete(path);
+
+                    return lstDisplay.ToString();
                 }
-                ViewBag.listDisplay = lstDisplay; //Set data to viewbag to display 
-                #endregion
-
-                //Remove Excel file uploaded
-                System.IO.File.Delete(path);
-
-                return View();
+                catch (Exception e)
+                {
+                    return "";
+                }
             }
-            catch(Exception e)
+            else
             {
-                ViewBag.Error = e.Message;
-                return View("~/Views/Shared/Error.cshtml");
+                return "";
             }
-            #endregion
         }
         private DataTable ReadImportExcelFile(string sheetName, string path)
         {
