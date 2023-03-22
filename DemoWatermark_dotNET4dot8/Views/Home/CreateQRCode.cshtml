@@ -35,11 +35,6 @@
         </div>
         <!---->
         <br />
-        <!--Upload file input form-->
-        @*<h2>Import file and generate QR:</h2>
-        <input type="file" id="myFile" name="file" />
-        <button class="btn btn-primary" onclick="uploadFileThenGenQR('myFile');">Upload File & Gen QR</button>*@
-
 
         @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -89,36 +84,4 @@
             });
         }
     }
-
-    @*function uploadFileThenGenQR(inputId) {
-        let fileElement = document.getElementById(inputId)
-
-        // check if user had selected a file
-        if (fileElement.files.length === 0) {
-            alert('please choose a file')
-            return
-        }
-
-        let file = fileElement.files[0]
-        let formData = new FormData();
-        formData.set('file', file);
-
-        console.log(formData);
-        console.log(typeof(formData));
-
-        $.ajax(
-            {
-                url: "/Home/UploadFileThenGenQR",
-                data: {
-                    file: formData
-                },
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    document.getElementById('listImgFrame').style.visibility = "visible";
-                    $("#listImgFrame").append(data);
-                }
-            }
-        );
-    }*@
 </script>
