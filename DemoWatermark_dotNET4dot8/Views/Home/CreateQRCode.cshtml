@@ -13,13 +13,6 @@
     .form-group {
         margin: 10px 0;
     }
-
-    .box-qr {
-        border: 1px solid #cdcdcd;
-        border-radius: 10px;
-        padding: 10px 0;
-        margin: -5px;
-    }
 </style>
 
 <h1>CreateQRCode</h1>
@@ -35,7 +28,7 @@
         </div>
         <!---->
         <br />
-
+        <!--File input form-->
         @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div>
@@ -53,9 +46,6 @@
         <div id="singleImgDownload" class="container pos-center" style="visibility: hidden">
             <a id="downloadImageButton" href="" download="ticket.png" class="btn btn-primary">Download</a>
         </div>
-        <!---->
-        <!--List images-->
-        <div id="listImgFrame" class="row" style="margin: 10px 0 0 0; visibility: hidden"></div>
         <!---->
     </div>
 </div>

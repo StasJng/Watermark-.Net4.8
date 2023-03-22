@@ -265,11 +265,16 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                     QRCode qrCode = new QRCode(qrCodeData);
                     Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
 
+                    Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+
+                    Graphics outputDemo = Graphics.FromImage(backgorundImage);
+                    outputDemo.DrawImage(qrCodeBitmap, 50, 50);
+
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        if (qrCodeBitmap != null)
+                        if (backgorundImage != null)
                         {
-                            qrCodeBitmap.Save(ms, ImageFormat.Png);
+                            backgorundImage.Save(ms, ImageFormat.Png);
                             lstDisplay.Add(new DisplayingCodeInfo()
                             {
                                 No = rowNum,

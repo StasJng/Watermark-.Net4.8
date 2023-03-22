@@ -9,15 +9,17 @@
         align-items: center;
     }
 
+    .pos-center img {
+        max-width: 95%;
+        padding-bottom: 5px;
+    }
+
     .form-group {
         margin: 10px 0;
     }
 
     .box-qr {
-        border: 1px solid #cdcdcd;
-        border-radius: 10px;
-        padding: 10px 0;
-        margin: -5px;
+        margin-bottom: 10px;
     }
 </style>
 
@@ -30,7 +32,7 @@
             <div class="row">
                 @foreach (var item in ViewBag.listDisplay)
                 {
-                    <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-4 col-sm-6 box-qr">
                         <div class="pos-center">
                             <img src="@item.QRCodeUri"/>
                         </div>
