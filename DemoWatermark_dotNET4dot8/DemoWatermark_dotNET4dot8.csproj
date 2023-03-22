@@ -363,6 +363,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="wwwroot\assets\img\ticket_frame.png" />
     <Content Include="wwwroot\assets\img\voucherForm.png" />
     <Content Include="wwwroot\assets\watermark\watermark.png" />
     <Content Include="wwwroot\assets\watermark\watermark_photo.png" />

@@ -69,8 +69,15 @@
                     stringCode: stringCode
                 },
                 success: function (data) {
+                    document.getElementById("listImgFrame").style.visibility = "hidden";
+                    document.getElementById("listImgFrame").style.height = "0";
+
                     document.getElementById('singleImgFrame').style.visibility = "visible";
+                    document.getElementById("singleImgFrame").style.height = "auto";
+
                     document.getElementById('singleImgDownload').style.visibility = "visible";
+                    document.getElementById("singleImgDownload").style.height = "auto";
+
                     document.getElementById('codeImage').setAttribute("src", data);
                     document.getElementById('downloadImageButton').setAttribute("href", data);
                 },
@@ -97,10 +104,17 @@
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
-                    document.getElementById('singleImgFrame').style.visibility = "hidden";
+                    document.getElementById("singleImgFrame").style.visibility = "hidden";
+                    document.getElementById('singleImgFrame').style.height = "0";
+
+                    document.getElementById("singleImgDownload").style.visibility = "hidden";
+                    document.getElementById('singleImgDownload').style.height = "0";
+
+                    document.getElementById("listImgFrame").style.visibility = "visible";
+                    document.getElementById("listImgFrame").style.height = "auto";
+
                     const container = document.querySelector('#listImgFrame');
                     removeAllChildNodes(container);
-                    document.getElementById("listImgFrame").style.visibility = "visible";
                     $('#listImgFrame').append(result);
                 },
                 error: function (err) {

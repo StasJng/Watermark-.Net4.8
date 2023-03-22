@@ -198,7 +198,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(stringCode, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
-                Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
+                Bitmap qrCodeBitmap = qrCode.GetGraphic(13);
+                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
                 #endregion
 
                 #region Create QR Image with Background Image (Watermark Image)
@@ -207,10 +208,10 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 _environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
                 _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
 
-                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/ticket_frame.png"));
 
                 Graphics outputDemo = Graphics.FromImage(backgorundImage);
-                outputDemo.DrawImage(qrCodeBitmap, 50, 50);
+                outputDemo.DrawImage(qrCodeBitmapResized, 1342, 145);
                 #endregion
 
                 #region Use memorystream to display image
@@ -280,12 +281,13 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                         QRCodeGenerator qrGenerator = new QRCodeGenerator();
                         QRCodeData qrCodeData = qrGenerator.CreateQrCode(code.QRCodeText, QRCodeGenerator.ECCLevel.Q);
                         QRCode qrCode = new QRCode(qrCodeData);
-                        Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
+                        Bitmap qrCodeBitmap = qrCode.GetGraphic(13);
+                        Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
 
-                        Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+                        Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/ticket_frame.png"));
 
                         Graphics outputDemo = Graphics.FromImage(backgorundImage);
-                        outputDemo.DrawImage(qrCodeBitmap, 50, 50);
+                        outputDemo.DrawImage(qrCodeBitmapResized, 1342, 145);
 
                         using (MemoryStream ms = new MemoryStream())
                         {
