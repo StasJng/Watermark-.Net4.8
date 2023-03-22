@@ -97,6 +97,7 @@
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
+                    document.getElementById('singleImgFrame').style.visibility = "hidden";
                     const container = document.querySelector('#listImgFrame');
                     removeAllChildNodes(container);
                     document.getElementById("listImgFrame").style.visibility = "visible";
