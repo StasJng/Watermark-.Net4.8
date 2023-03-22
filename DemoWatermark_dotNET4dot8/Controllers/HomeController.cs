@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -198,22 +199,23 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
             return View();
         }
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
-
         public ActionResult CreateQRCode(string stringCode)
+        {
+            return View();
+        }
+        public string CreateQRCodeJob(string stringCode)
         {
             #region Initial data
             var _environment = new SelfDefinedEnvironment();
@@ -223,7 +225,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
             if (string.IsNullOrEmpty(stringCode))
             {
-                return View();
+                return "";
             }
 
             try
@@ -234,6 +236,16 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
                 //var byteImg = BitmapToBytes(qrCodeBitmap); //get byte data from image
+                #endregion
+
+                #region Save file to memory stream(return QR only)
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    qrCodeBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                //    ViewBag.QrCodeUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                //    ViewBag.linkDownload = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                //}
+                //return View();
                 #endregion
 
                 #region Save Bitmap as jpg image
@@ -266,16 +278,6 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //qrCodeBitmap.Save("qr_" + stringCode + "_L075.jpg", myImageCodecInfo, myEncoderParameters);
                 #endregion
 
-                #region Save file to memory stream(return QR only)
-                //using (MemoryStream ms = new MemoryStream())
-                //{
-                //    qrCodeBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                //    ViewBag.QrCodeUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                //    ViewBag.linkDownload = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                //}
-                //return View();
-                #endregion
-
                 #region Save QR image to Server
                 string path = Path.Combine(_environment.WebRootPath, "GeneratedQRCode");
                 if (!Directory.Exists(path))
@@ -293,10 +295,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                     Image image = Image.FromFile(imgExistedemoUrl);
                     image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    ViewBag.QrCodeUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                    ViewBag.linkDownload = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
 
-                    return View();
+                    return ("data:image/png;base64," + Convert.ToBase64String(ms.ToArray()));
                 };
 
                 //save image to file
@@ -305,6 +305,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                 #region Create QR Image with Background Image (Watermark Image)
                 Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/voucherForm.png"));
+                
                 Image imageQR = Image.FromFile(Path.Combine(_environment.WebRootPath, "GeneratedQRCode/qrcode" + stringCode + ".png"));
                 Graphics outputDemo = Graphics.FromImage(backgorundImage);
                 //outputDemo.DrawImage(imageQR, backgorundImage.Width / 2 + 305, backgorundImage.Height / 2 + 105);
@@ -318,10 +319,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                     Image image = Image.FromFile(imgExistedemoUrl);
                     image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    ViewBag.QrCodeUri = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
-                    ViewBag.linkDownload = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
 
-                    return View();
+                    return ("data:image/png;base64," + Convert.ToBase64String(ms.ToArray()));
                 };
                 #endregion
 
@@ -332,24 +331,21 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 MemoryStream msDemo = new MemoryStream();
                 Image img = Image.FromFile(imgFilePath);
                 img.Save(msDemo, System.Drawing.Imaging.ImageFormat.Png);
-                ViewBag.QrCodeUri = "data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray());
-                ViewBag.linkDownload = "data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray());
+
                 msDemo.Close();
                 msDemo.Flush();
                 msDemo.Dispose();
                 imageQR.Dispose();
                 backgorundImage.Dispose();
                 #endregion
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                return View("~/Views/Shared/Error.cshtml");
-            }
-            return View();
-        }
 
-        #region Read data from Excel sheet
+                return ("data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray()));
+            }
+            catch
+            {
+                return "";
+            }
+        }
         private DataTable ReadImportExcelFile(string sheetName, string path)
         {
             sheetName = sheetName.Trim();
@@ -376,34 +372,20 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 }
             }
         }
-        #endregion
-
-        [HttpPost]
-        public async Task<ActionResult> UploadFileThenGenQR(IFormFile file)
+        public async Task<ActionResult> UploadFileThenGenQR(HttpPostedFileBase file)
         {
-            #region Upload file
-            if (file == null || file.Length == 0)
-            {
-                ViewBag.Error = "File not selected!";
-                return View("~/Views/Shared/Error.cshtml");
-            }
+            #region Initial data
+            var _environment = new SelfDefinedEnvironment();
+            _environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
+            _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
+            #endregion
 
+            #region Upload file
             string fileExtension = Path.GetExtension(file.FileName);
 
-            if (fileExtension != ".xlsx" && fileExtension != ".xls")
-            {
-                ViewBag.Error = "Support Excel File only!";
-                return View("~/Views/Shared/Error.cshtml");
-            }
+            var path = Path.Combine(_environment.WebRootPath, file.FileName);
 
-            var path = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot",
-                        file.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            file.SaveAs(path);
             #endregion
 
             #region Generate QR code list
@@ -411,7 +393,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
             {
                 #region Read Data From imported file
                 DataTable dt = new DataTable();
-                dt = ReadImportExcelFile("Sheet1", Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FileName)); //Get Excel file with static path
+                dt = ReadImportExcelFile("Sheet1", Path.Combine(_environment.WebRootPath, file.FileName)); //Get Excel file with static path
 
                 List<DataRow> list = dt.AsEnumerable().ToList();
                 List<GenerateQRCodeModel> lstCode = (from DataRow row in dt.Rows
@@ -425,18 +407,66 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 #region Generate QR list
                 var rowNum = 0;
 
+                List<DisplayingCodeInfo> lstDisplay = new List<DisplayingCodeInfo>();
+                foreach (var code in lstCode)
+                {
+                    rowNum++;
+
+                    #region Generate QR Image
+                    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                    QRCodeData qrCodeData = qrGenerator.CreateQrCode(code.QRCodeText, QRCodeGenerator.ECCLevel.Q);
+                    QRCode qrCode = new QRCode(qrCodeData);
+                    Bitmap qrCodeBitmap = qrCode.GetGraphic(5);
+                    #endregion
+
+                    string imageQRPath = Path.Combine(_environment.WebRootPath, "GeneratedQRCode");
+                    if (!Directory.Exists(imageQRPath))
+                    {
+                        Directory.CreateDirectory(imageQRPath);
+                    }
+
+                    string filePath = Path.Combine(_environment.WebRootPath, "GeneratedQRCode/qrcode_" + code.QRCodeText + ".png");
+
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        qrCodeBitmap.Save(filePath, ImageFormat.Png); // Save image
+                    };
+
+                    WebClient client = new WebClient();
+                    Stream stream = client.OpenRead(filePath);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (Bitmap bitMap = new Bitmap(stream))
+                        {
+                            if (bitMap != null)
+                            {
+                                bitMap.Save(ms, ImageFormat.Png);
+                            }
+                            var qrResult = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                            lstDisplay.Add(new DisplayingCodeInfo()
+                            {
+                                No = rowNum,
+                                QRCodeUri = qrResult,
+                                LinkDownload = qrResult
+                            });
+                        }
+                    }
+                    //Remove file uploaded
+                    System.IO.File.Delete(path);
+                }
+
+                ViewBag.listDisplay = lstDisplay;
                 #endregion
+
+                return View();
             }
-            catch (Exception ex)
+            catch(Exception e)
             {
-                throw;
+                ViewBag.Error = e.Message;
+                return View("~/Views/Shared/Error.cshtml");
             }
             #endregion
-
-            //Remove file uploaded
-            System.IO.File.Delete(path);
-
-            return View("~/Views/Home/CreateQRCode.cshtml");
         }
     }
 }

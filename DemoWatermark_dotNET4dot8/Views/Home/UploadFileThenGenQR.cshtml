@@ -1,0 +1,45 @@
+﻿@model DemoWatermark_dotNET4dot8.Models.GenerateQRCodeModel
+
+<style>
+    .pos-center {
+        margin: 0 auto;
+        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-group {
+        margin: 10px 0;
+    }
+
+    .box-qr {
+        border: 1px solid #cdcdcd;
+        border-radius: 10px;
+        padding: 10px 0;
+        margin: -5px;
+    }
+</style>
+
+<h1>List QR images</h1>
+
+<div class="row">
+    <div class="">
+        @if (ViewBag.listDisplay != null && ViewBag.listDisplay.Count > 0)
+        {
+            <div class="row">
+                @foreach (var item in ViewBag.listDisplay)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="pos-center">
+                            <img src="@item.QRCodeUri"/>
+                        </div>
+                        <div class="pos-center">
+                            <a id="download + @item.No" style="" download="qr-@item.No" href="@item.LinkDownload" class="btn btn-primary">Download</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

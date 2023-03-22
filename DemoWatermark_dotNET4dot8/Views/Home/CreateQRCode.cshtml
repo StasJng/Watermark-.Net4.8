@@ -1,6 +1,4 @@
-﻿@model DemoWatermark_dotNET4dot8.Models.GenerateQRCodeModel
-
-@{
+﻿@{
     ViewData["Title"] = "CreateQRCode";
 }
 <style>
@@ -26,112 +24,63 @@
 
 <h1>CreateQRCode</h1>
 
-<div class="row">
+<div id ="container" class="row">
     <div class="">
+        <!--Text input form-->
         <div class="form-group">
             <input type="text" id="myInput" class="form-control" />
         </div>
         <div class="form-group">
             <input value="Generate QR Code" class="btn btn-primary" onclick="generateQR('myInput')" />
         </div>
-
+        <!---->
         <br />
-
-        <h2>Import file and generate QR:</h2>
+        <!--Upload file input form-->
+        @*<h2>Import file and generate QR:</h2>
         <input type="file" id="myFile" name="file" />
-        <button type="submit" class="btn btn-primary" onclick="uploadFiles('myFile');">Upload File & Gen QR</button>
+        <button class="btn btn-primary" onclick="uploadFileThenGenQR('myFile');">Upload File & Gen QR</button>*@
 
-        @if (ViewBag.listDisplay != null && ViewBag.listDisplay.Count > 0)
+
+        @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            <div class="row" style="margin: 10px 0 0 0">
-                @foreach (var item in ViewBag.listDisplay)
-                {
-                    <div class="col-lg-3 col-md-4 col-sm-12 box-qr">
-                        <div class="container pos-center">
-                            <div class="form-group">
-                                <img src="@item.QRCodeUri" class="img-thumbnail" />
-                            </div>
-                        </div>
-                        <div class="container pos-center">
-                            <a id="download + @item.No" style="" download="qr-@item.No" href="@item.LinkDownload" class="btn btn-primary">Download</a>
-                        </div>
-                    </div>
-                }
+            <div>
+                @Html.TextBox("file", "", new { type = "file" }) <br />
+                <input type="submit" value="Upload" />
             </div>
         }
-        <div id="codeZone" class="container pos-center" style="visibility: hidden">
+        <!---->
+        <!--Single image-->
+        <div id="singleImgFrame" class="container pos-center" style="visibility: hidden">
             <div class="form-group">
-                <img id="codeImage" src="@ViewBag.QrCodeUri" class="img-thumbnail" />
+                <img id="codeImage" src="" class="img-thumbnail" />
             </div>
         </div>
-        <div class="container pos-center">
-            <a id="downloadCodeImage" href="@ViewBag.linkDownload" class="btn btn-primary">Download</a>
+        <div id="singleImgDownload" class="container pos-center" style="visibility: hidden">
+            <a id="downloadImageButton" href="" download="ticket.png" class="btn btn-primary">Download</a>
         </div>
+        <!---->
+        <!--List images-->
+        <div id="listImgFrame" class="row" style="margin: 10px 0 0 0; visibility: hidden"></div>
+        <!---->
     </div>
 </div>
 
 <script>
-
-    //window.onload = function downloadImg() {
-    //    document.getElementById("download").click();
-    //};
-
-    function pickAFile() {
-        var fileName = document.getElementById('myFile').value.substr(12);
-        console.log(fileName);
-        $.ajax({
-            type: "post",
-            url: "/Home/PickAFile",
-            data: {
-                fileName: fileName
-            },
-            success: function (d) {
-                console.log('Success!');
-                console.log('path: ' + d)
-            }
-        });
-    };
-
-    function uploadFiles(inputId) {
-        var input = document.getElementById(inputId);
-        var files = input.files;
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-        }
-
-        $.ajax(
-            {
-                url: "/Home/UploadFileThenGenQR",
-                data: {
-                    file: formData
-                },
-                success: function () {
-                    console.log('Generate QR from uploaded file successful!')
-                }
-            }
-        );
-    }
-
     function generateQR(inputId) {
-        if (document.getElementById(inputId).value != null)
-        {
+        if (document.getElementById(inputId).value != null) {
             var stringCode = document.getElementById(inputId).value;
             console.log(stringCode);
 
             $.ajax({
-                url: "/Home/CreateQRCode",
+                url: "/Home/CreateQRCodeJob",
                 data: {
                     stringCode: stringCode
                 },
-                success: function () {
-                    document.getElementById("codeZone").style.visibility = "visible";
-                    document.getElementById("codeImage").setAttribute("src", '@ViewBag.QrCodeUri');
-                    console.log(document.getElementById("codeImage"));
-                    document.getElementById("downloadCodeImage").setAttribute("href", '@ViewBag.linkDownload');
-                    console.log(document.getElementById("downloadCodeImage"));
-                    console.log("Generate QR successful!");
+                success: function (data) {
+                    document.getElementById('singleImgFrame').style.visibility = "visible";
+                    document.getElementById('singleImgDownload').style.visibility = "visible";
+                    document.getElementById('codeImage').setAttribute("src", data);
+                    document.getElementById('downloadImageButton').setAttribute("href", data);
                 },
                 error: function () {
                     $("#loading").hide();
@@ -140,4 +89,36 @@
             });
         }
     }
+
+    @*function uploadFileThenGenQR(inputId) {
+        let fileElement = document.getElementById(inputId)
+
+        // check if user had selected a file
+        if (fileElement.files.length === 0) {
+            alert('please choose a file')
+            return
+        }
+
+        let file = fileElement.files[0]
+        let formData = new FormData();
+        formData.set('file', file);
+
+        console.log(formData);
+        console.log(typeof(formData));
+
+        $.ajax(
+            {
+                url: "/Home/UploadFileThenGenQR",
+                data: {
+                    file: formData
+                },
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    document.getElementById('listImgFrame').style.visibility = "visible";
+                    $("#listImgFrame").append(data);
+                }
+            }
+        );
+    }*@
 </script>
