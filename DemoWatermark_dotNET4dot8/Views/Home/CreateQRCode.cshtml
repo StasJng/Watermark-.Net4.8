@@ -97,6 +97,8 @@
                 processData: false, // Not to process data
                 data: fileData,
                 success: function (result) {
+                    const container = document.querySelector('#listImgFrame');
+                    removeAllChildNodes(container);
                     document.getElementById("listImgFrame").style.visibility = "visible";
                     $('#listImgFrame').append(result);
                 },
@@ -108,4 +110,10 @@
             alert("FormData is not supported.");
         }
     };
+
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
 </script>
