@@ -267,12 +267,12 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 for (int i = 0; i <= 15; i++)
                 {
                     codeFont = new Font("arial", sizes[i], FontStyle.Bold);
-                    codeSize = grPhoto.MeasureString("ABDCD-ADJNA-N8ANA-LOLPD-A1", codeFont);
+                    codeSize = grPhoto.MeasureString(stringCode, codeFont);
 
                     if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
                 }
 
-                grPhoto.DrawString("ABDCD-ADJNA-N8ANA-LOLPD-A1",
+                grPhoto.DrawString(stringCode,
                                    codeFont,
                                    semiTransBrush2,
                                    new PointF(1530, 590),
