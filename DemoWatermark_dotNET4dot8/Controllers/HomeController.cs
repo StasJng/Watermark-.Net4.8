@@ -241,7 +241,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 grPhoto.DrawString("20/03/2023-20/03-2025",
                                    contentFont,
                                    semiTransBrush2,
-                                   new PointF(518, 612),
+                                   new PointF(520, 612),
                                    StrFormat);
 
                 //Draw Screen string 
@@ -267,17 +267,15 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 for (int i = 0; i <= 15; i++)
                 {
                     codeFont = new Font("arial", sizes[i], FontStyle.Bold);
-                    codeSize = grPhoto.MeasureString("ABDCD-ADJNA-N8ANA-LOLPD", codeFont);
+                    codeSize = grPhoto.MeasureString("ABDCD-ADJNA-N8ANA-LOLPD-A1", codeFont);
 
-                    if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 55 - 1225)) break;
+                    if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
                 }
 
-                
-
-                grPhoto.DrawString("ABDCD-ADJNA-N8ANA-LOLPD",
+                grPhoto.DrawString("ABDCD-ADJNA-N8ANA-LOLPD-A1",
                                    codeFont,
                                    semiTransBrush2,
-                                   new PointF(1525, 590),
+                                   new PointF(1530, 590),
                                    StrFormat);
 
 
@@ -290,13 +288,13 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                     priceFont = new Font("arial", sizes[i], FontStyle.Bold);
                     priceSize = grPhoto.MeasureString("100.000đ", priceFont);
 
-                    if ((ushort)priceSize.Width < (ushort)(backgorundImage.Width - 55 - 1225)) break;
+                    if ((ushort)priceSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
                 }
 
                 grPhoto.DrawString("100.000đ",
                                    priceFont,
                                    semiTransBrush2,
-                                   new PointF(1526, 651),
+                                   new PointF(1531, 651),
                                    StrFormat);
 
                 //Repeat this process using a White Brush drawing the same text directly on top of the previously drawn string
@@ -304,7 +302,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 grPhoto.DrawString("100.000đ",
                                    priceFont,
                                    semiTransBrush,
-                                   new PointF(1525, 650),
+                                   new PointF(1530, 650),
                                    StrFormat);
                 #endregion
 
