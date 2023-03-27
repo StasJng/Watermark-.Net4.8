@@ -9,6 +9,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        visibility: hidden;
     }
 
     .pos-center img {
@@ -38,8 +39,7 @@
     #image-viewer {
         display: none;
         position: fixed;
-        z-index: 1;
-        padding-top: 100px;
+        z-index: 2;
         left: 0;
         top: 0;
         width: 100%;
@@ -47,6 +47,12 @@
         overflow: auto;
         background-color: rgb(0,0,0);
         background-color: rgba(0,0,0,0.9);
+        text-align: center;
+        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
     }
     .modal-content {
         margin: auto;
@@ -113,7 +119,7 @@
         <!---->
     </div>
     <div id="image-viewer">
-        <div style="position: fixed; font-size: 30px; color: #fff; top: 6%; right: 2%" onclick="closeImageView();">X</div>
+        <div style="position: fixed; font-size: 30px; color: #fff; top: 8%; right: 3%" onclick="closeImageView();">X</div>
         <img class="modal-content" id="full-image">
     </div>
 </div>
@@ -196,9 +202,11 @@
     function viewImage(imageId) {
         $("#full-image").attr("src", document.getElementById(imageId).getAttribute("src"));
         $('#image-viewer').show();
+        document.getElementById('image-viewer').style.visibility = 'visible';
     };
 
     function closeImageView() {
         $('#image-viewer').hide();
+        document.getElementById('image-viewer').style.visibility = 'hidden';
     };
 </script>

@@ -258,8 +258,6 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                    new PointF(1085, 612),
                                    StrFormat);
 
-
-
                 //Draw Code string 
                 int[] sizes = new int[] { 38, 36, 34, 32, 31, 30, 29, 28, 27, 26, 25, 24, 22, 20, 18, 16};
                 Font codeFont = null;
@@ -277,8 +275,6 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                    semiTransBrush2,
                                    new PointF(1530, 590),
                                    StrFormat);
-
-
 
                 //Draw Price string 
                 Font priceFont = null;
@@ -305,7 +301,6 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                    new PointF(1530, 650),
                                    StrFormat);
                 #endregion
-
 
                 #region Use memorystream to display image
                 using (MemoryStream msDemo = new MemoryStream())
