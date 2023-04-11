@@ -385,10 +385,10 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                 var base64img = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
 
                                 lstDisplay.Append("<div class='col-lg-3 col-md-4 col-sm-6 box-qr'>");
-                                lstDisplay.Append("<div class='pos-center'>");
+                                lstDisplay.Append("<div class='lst-pos-center'>");
                                 lstDisplay.Append("<img src= '" + base64img + "' />");
                                 lstDisplay.Append("</div>");
-                                lstDisplay.Append("<div class='pos-center'>");
+                                lstDisplay.Append("<div class='lst-pos-center'>");
                                 lstDisplay.Append("<a id='download-" + rowNum + "' download='qr-" + rowNum + "' href='" + base64img + "' class='btn btn-primary'>Download</a>");
                                 lstDisplay.Append("</div>");
                                 lstDisplay.Append("</div>");
