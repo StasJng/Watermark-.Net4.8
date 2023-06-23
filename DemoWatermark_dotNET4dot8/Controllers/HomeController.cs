@@ -198,21 +198,48 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
                 QRCodeData qrCodeData = qrGenerator.CreateQrCode(stringCode, QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
-                Bitmap qrCodeBitmap = qrCode.GetGraphic(13);
-                qrCodeBitmap.SetResolution(72, 72);
+                Bitmap qrCodeBitmap = qrCode.GetGraphic(20);
+                qrCodeBitmap.SetResolution(75, 75);
                 Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
-                #endregion
 
                 #region Create QR Image with Background Image (Watermark Image)
+                ////Define location
+                //var _environment = new SelfDefinedEnvironment();
+                //_environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
+                //_environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
+
+                //Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/ticket_frame.png"));
+
+                //Graphics outputDemo = Graphics.FromImage(backgorundImage);
+                //outputDemo.DrawImage(qrCodeBitmapResized, 1342, 145);
+
+                //Graphics gp = Graphics.FromImage(qrCodeBitmapResized);
+                ////Define location
+                //Image logoImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/logo.png"));
+
+                //outputDemo.DrawImage(logoImage, 1500, 300);
+                #endregion
+
+                #region Create QR Image with Background Image (Watermark Image) - QR only - using 375 bg image
                 //Define location
                 var _environment = new SelfDefinedEnvironment();
                 _environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
                 _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
 
-                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/ticket_frame.png"));
+                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/375x375.png"));
 
                 Graphics outputDemo = Graphics.FromImage(backgorundImage);
-                outputDemo.DrawImage(qrCodeBitmapResized, 1342, 145);
+                
+                outputDemo.DrawImage(qrCodeBitmapResized, 0, 0);
+
+                Graphics gp = Graphics.FromImage(qrCodeBitmapResized);
+                //Define location
+                Image logoImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/logo.png"));
+
+                //outputDemo.DrawImage(logoImage, ((backgorundImage.Width / 2) - (logoImage.Width / 2)), ((backgorundImage.Height / 2) - (logoImage.Height / 2)));
+                outputDemo.DrawImage(logoImage, (backgorundImage.Width / 2 - 36), (backgorundImage.Height / 2 - 36), 72, 72);
+
+                #endregion
                 #endregion
 
                 #region Watermark text
@@ -228,7 +255,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                   GraphicsUnit.Pixel);
 
                 Font contentFont = null;
-                contentFont = new Font("arial", 26, FontStyle.Bold);
+                contentFont = new Font("Roboto", 26, FontStyle.Bold);
 
                 //Define a StringFormat object and set the StringAlignment to Center. 
                 StringFormat StrFormat = new StringFormat();
@@ -264,7 +291,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 SizeF codeSize = new SizeF(); //get watermark text height
                 for (int i = 0; i <= 15; i++)
                 {
-                    codeFont = new Font("arial", sizes[i], FontStyle.Bold);
+                    codeFont = new Font("Roboto", sizes[i], FontStyle.Bold);
                     codeSize = grPhoto.MeasureString(stringCode, codeFont);
 
                     if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
@@ -281,13 +308,13 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 SizeF priceSize = new SizeF(); //get watermark text height
                 for (int i = 0; i <= 12; i++)
                 {
-                    priceFont = new Font("arial", sizes[i], FontStyle.Bold);
+                    priceFont = new Font("Roboto", sizes[i], FontStyle.Bold);
                     priceSize = grPhoto.MeasureString("100.000đ", priceFont);
 
                     if ((ushort)priceSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
                 }
 
-                grPhoto.DrawString("100.000đ",
+                grPhoto.DrawString("382.000đ",
                                    priceFont,
                                    semiTransBrush2,
                                    new PointF(1531, 651),
@@ -295,7 +322,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                 //Repeat this process using a White Brush drawing the same text directly on top of the previously drawn string
                 SolidBrush semiTransBrush = new SolidBrush(Color.Black);
-                grPhoto.DrawString("100.000đ",
+                grPhoto.DrawString("382.000đ",
                                    priceFont,
                                    semiTransBrush,
                                    new PointF(1530, 650),
