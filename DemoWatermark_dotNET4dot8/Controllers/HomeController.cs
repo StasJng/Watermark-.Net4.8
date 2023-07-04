@@ -200,7 +200,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeBitmap = qrCode.GetGraphic(20);
                 qrCodeBitmap.SetResolution(75, 75);
-                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
+                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(350, 350));
 
                 #region Create QR Image with Background Image (Watermark Image)
                 ////Define location
@@ -226,18 +226,19 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 _environment.WebRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8\\wwwroot";
                 _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
 
-                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/375x375.png"));
+                //Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/375x375.png"));
+                Image backgorundImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/form-resized-x2-656-622.png"));
 
                 Graphics outputDemo = Graphics.FromImage(backgorundImage);
                 
-                outputDemo.DrawImage(qrCodeBitmapResized, 0, 0);
+                outputDemo.DrawImage(qrCodeBitmapResized, backgorundImage.Width / 2 - qrCodeBitmapResized.Width / 2, 65);
 
                 Graphics gp = Graphics.FromImage(qrCodeBitmapResized);
-                //Define location
+                ////Define location
                 Image logoImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/logo.png"));
 
                 //outputDemo.DrawImage(logoImage, ((backgorundImage.Width / 2) - (logoImage.Width / 2)), ((backgorundImage.Height / 2) - (logoImage.Height / 2)));
-                outputDemo.DrawImage(logoImage, (backgorundImage.Width / 2 - 36), (backgorundImage.Height / 2 - 36), 72, 72);
+                outputDemo.DrawImage(logoImage, (backgorundImage.Width / 2 - 32), 65 + qrCodeBitmapResized.Height / 2 - 32, 64, 64);
 
                 #endregion
                 #endregion
@@ -255,78 +256,58 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                   GraphicsUnit.Pixel);
 
                 Font contentFont = null;
-                contentFont = new Font("Roboto", 26, FontStyle.Bold);
+                contentFont = new Font("Roboto", 26, FontStyle.Regular);
 
                 //Define a StringFormat object and set the StringAlignment to Center. 
                 StringFormat StrFormat = new StringFormat();
                 StrFormat.Alignment = StringAlignment.Center;
 
-                //Create a SolidBrush with a Color of Black
-                SolidBrush semiTransBrush2 = new SolidBrush(Color.Black);
+                
 
-                //Draw Date string 
-                grPhoto.DrawString("20/03/2023-20/03-2025",
-                                   contentFont,
-                                   semiTransBrush2,
-                                   new PointF(520, 612),
+                var color = System.Drawing.ColorTranslator.FromHtml("#9E9E9E");
+                SolidBrush noteBrush = new SolidBrush(color);
+
+                Font noteFont = null;
+                noteFont = new Font("Roboto", 22, FontStyle.Regular);
+
+                grPhoto.DrawString(stringCode,
+                                   noteFont,
+                                   noteBrush,
+                                   new PointF(backgorundImage.Width / 2, 65 + 300 + 65),
                                    StrFormat);
 
-                //Draw Screen string 
-                grPhoto.DrawString("8",
-                                   contentFont,
-                                   semiTransBrush2,
-                                   new PointF(920, 612),
-                                   StrFormat);
+                ////Draw Code string 
+                //int[] sizes = new int[] { 38, 36, 34, 32, 31, 30, 29, 28, 27, 26, 25, 24, 22, 20, 18, 16};
+                //Font codeFont = null;
+                //SizeF codeSize = new SizeF(); //get watermark text height
+                //for (int i = 0; i <= 15; i++)
+                //{
+                //    codeFont = new Font("Roboto", sizes[i], FontStyle.Bold);
+                //    codeSize = grPhoto.MeasureString(stringCode, codeFont);
 
-                //Draw Seat string 
-                grPhoto.DrawString("A1",
-                                   contentFont,
-                                   semiTransBrush2,
-                                   new PointF(1085, 612),
-                                   StrFormat);
+                //    if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
+                //}
 
-                //Draw Code string 
-                int[] sizes = new int[] { 38, 36, 34, 32, 31, 30, 29, 28, 27, 26, 25, 24, 22, 20, 18, 16};
                 Font codeFont = null;
-                SizeF codeSize = new SizeF(); //get watermark text height
-                for (int i = 0; i <= 15; i++)
-                {
-                    codeFont = new Font("Roboto", sizes[i], FontStyle.Bold);
-                    codeSize = grPhoto.MeasureString(stringCode, codeFont);
+                codeFont = new Font("Roboto", 26, FontStyle.Bold);
 
-                    if ((ushort)codeSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
-                }
+                //Create a SolidBrush with a Color of Black
+                SolidBrush codeBrush = new SolidBrush(Color.Black);
 
                 grPhoto.DrawString(stringCode,
                                    codeFont,
-                                   semiTransBrush2,
-                                   new PointF(1530, 590),
-                                   StrFormat);
-
-                //Draw Price string 
-                Font priceFont = null;
-                SizeF priceSize = new SizeF(); //get watermark text height
-                for (int i = 0; i <= 12; i++)
-                {
-                    priceFont = new Font("Roboto", sizes[i], FontStyle.Bold);
-                    priceSize = grPhoto.MeasureString("100.000đ", priceFont);
-
-                    if ((ushort)priceSize.Width < (ushort)(backgorundImage.Width - 58 - 1230)) break;
-                }
-
-                grPhoto.DrawString("382.000đ",
-                                   priceFont,
-                                   semiTransBrush2,
-                                   new PointF(1531, 651),
+                                   codeBrush,
+                                   new PointF(backgorundImage.Width/2, 65 + 300 + 65 + grPhoto.MeasureString(stringCode, noteFont).Height + 32),
                                    StrFormat);
 
                 //Repeat this process using a White Brush drawing the same text directly on top of the previously drawn string
-                SolidBrush semiTransBrush = new SolidBrush(Color.Black);
-                grPhoto.DrawString("382.000đ",
-                                   priceFont,
-                                   semiTransBrush,
-                                   new PointF(1530, 650),
-                                   StrFormat);
+                //SolidBrush semiTransBrush = new SolidBrush(Color.Black);
+                //grPhoto.DrawString(stringCode,
+                //                   codeFont,
+                //                   semiTransBrush,
+                //                   new PointF(backgorundImage.Width / 2 - grPhoto.MeasureString(stringCode, codeFont).Width / 2 + 1, 80 + 300 + 80 + 1),
+                //                   StrFormat);
+
                 #endregion
 
                 #region Use memorystream to display image
