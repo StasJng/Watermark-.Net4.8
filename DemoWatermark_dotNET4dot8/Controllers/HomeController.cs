@@ -231,14 +231,14 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                 Graphics outputDemo = Graphics.FromImage(backgorundImage);
                 
-                outputDemo.DrawImage(qrCodeBitmapResized, backgorundImage.Width / 2 - qrCodeBitmapResized.Width / 2, 65);
+                outputDemo.DrawImage(qrCodeBitmapResized, backgorundImage.Width / 2 - qrCodeBitmapResized.Width / 2, 80);
 
                 Graphics gp = Graphics.FromImage(qrCodeBitmapResized);
                 ////Define location
                 Image logoImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/logo.png"));
 
                 //outputDemo.DrawImage(logoImage, ((backgorundImage.Width / 2) - (logoImage.Width / 2)), ((backgorundImage.Height / 2) - (logoImage.Height / 2)));
-                outputDemo.DrawImage(logoImage, (backgorundImage.Width / 2 - 32), 65 + qrCodeBitmapResized.Height / 2 - 32, 64, 64);
+                outputDemo.DrawImage(logoImage, (backgorundImage.Width / 2 - 32), 80 + qrCodeBitmapResized.Height / 2 - 32, 64, 64);
 
                 #endregion
                 #endregion
@@ -273,7 +273,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 grPhoto.DrawString(stringCode,
                                    noteFont,
                                    noteBrush,
-                                   new PointF(backgorundImage.Width / 2, 65 + 300 + 65),
+                                   new PointF(backgorundImage.Width / 2, 80 + 300 + 65),
                                    StrFormat);
 
                 ////Draw Code string 
@@ -297,7 +297,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 grPhoto.DrawString(stringCode,
                                    codeFont,
                                    codeBrush,
-                                   new PointF(backgorundImage.Width/2, 65 + 300 + 65 + grPhoto.MeasureString(stringCode, noteFont).Height + 32),
+                                   new PointF(backgorundImage.Width/2, 80 + 300 + 65 + grPhoto.MeasureString(stringCode, noteFont).Height + 32),
                                    StrFormat);
 
                 //Repeat this process using a White Brush drawing the same text directly on top of the previously drawn string
