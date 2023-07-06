@@ -49,7 +49,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeBitmap = qrCode.GetGraphic(20);
                 qrCodeBitmap.SetResolution(100, 100);
-                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(350, 350));
+                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
                 #endregion
 
                 #region Check name's width and get lines
@@ -58,7 +58,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 Graphics tempGraphic = Graphics.FromImage(tempBitmap);
 
                 //Measure width and get lines
-                Font pFont = new Font("Roboto", 26, FontStyle.Bold);
+                Font pFont = new Font("Roboto", 28, FontStyle.Bold);
                 SizeF pSize = tempGraphic.MeasureString(stringCode, pFont, tempBitmap.Width - 64);
                 int lines = (int)Math.Round(pSize.Height / pFont.Height);
                 #endregion 
@@ -70,7 +70,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 _environment.ContentRootPath = @"D:\\2_demo_project\\DemoWatermark_dotNET4dot8\\Watermark-.Net4.8\\DemoWatermark_dotNET4dot8";
 
                 //Define general frame 
-                Bitmap frameBitmap = new Bitmap(656, (int)(1050 + lines * pSize.Height));
+                Bitmap frameBitmap = new Bitmap(656, (int)(1028 + pSize.Height));
                 Graphics frameGraphic = Graphics.FromImage(frameBitmap);
                 frameGraphic.Clear(Color.White);
 
@@ -80,7 +80,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
 
                 //Draw footer
                 Image footerImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/new-frame-footer-656-177.png"));
-                frameGraphic.DrawImage(footerImage, 0, (int)(1050 + lines * pSize.Height) - 177);
+                frameGraphic.DrawImage(footerImage, 0, (int)(1028 + pSize.Height) - 177);
 
                 //Draw QR
                 frameGraphic.DrawImage(qrCodeBitmapResized, frameBitmap.Width / 2 - qrCodeBitmapResized.Width / 2, 80);
@@ -118,12 +118,12 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //-----------------------------------------------------------------------------------------
                 var noteColor = System.Drawing.ColorTranslator.FromHtml("#9E9E9E");
                 SolidBrush noteBrush = new SolidBrush(noteColor);
-                Font noteFont = new Font("Roboto", 24, FontStyle.Regular);
+                Font noteFont = new Font("Roboto", 22, FontStyle.Regular);
 
                 frameGraphic.DrawString("S/N: " + "1234567890",
                                    noteFont,
                                    noteBrush,
-                                   new PointF(frameBitmap.Width / 2, 100 + 325 + 40),
+                                   new PointF(frameBitmap.Width / 2, 100 + 325 + 35),
                                    StrFormat);
                 //-----------------------------------------------------------------------------------------
 
@@ -133,20 +133,20 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //-----------------------------------------------------------------------------------------
                 var contentColor = System.Drawing.ColorTranslator.FromHtml("#000000");
                 SolidBrush codeBrush = new SolidBrush(contentColor); //SolidBrush codeBrush = new SolidBrush(Color.Black);
-                Font contentFont = new Font("Roboto", 32, FontStyle.Bold);
+                Font contentFont = new Font("Roboto", 28, FontStyle.Bold);
 
                 frameGraphic.DrawString("DT909009909123",
                                         contentFont,
                                         codeBrush,
                                         new PointF(frameBitmap.Width / 2, 
-                                                   100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40),
+                                                   100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35),
                                                    StrFormat);
 
                 frameGraphic.DrawString("DT909009909123",
                                         contentFont,
                                         codeBrush,
                                         new PointF(8 / 10 + frameBitmap.Width / 2,
-                                                   8 / 10 + 100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40),
+                                                   2 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35),
                                                    StrFormat);
                 //-----------------------------------------------------------------------------------------
 
@@ -156,12 +156,12 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //-----------------------------------------------------------------------------------------
                 //Create rectangle frame for wrap text
                 RectangleF rectFrame = new RectangleF(32, 
-                                                      100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", contentFont).Height + 40, 
+                                                      100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35, 
                                                       frameBitmap.Width - 64, 
                                                       lines * pSize.Height);
 
                 RectangleF rectFrame2 = new RectangleF(8 / 10 + 32,
-                                                       8 / 10 + 100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", contentFont).Height + 40,
+                                                       2 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35,
                                                        frameBitmap.Width - 64,
                                                        lines * pSize.Height);
 
@@ -186,7 +186,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                    noteFont,
                                    noteBrush,
                                    new PointF(frameBitmap.Width / 2,
-                                              100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", contentFont).Height + 40 + lines * pSize.Height + 40),
+                                              100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35 + pSize.Height + 35),
                                    StrFormat);
                 //-----------------------------------------------------------------------------------------
 
@@ -202,15 +202,79 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                         priceFont,
                                         priceBrush,
                                         new PointF(frameBitmap.Width / 2, 
-                                                   100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", contentFont).Height + 40 + lines * pSize.Height + 40),
+                                                   100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35 + pSize.Height + 35),
                                         StrFormat);
 
                 frameGraphic.DrawString(900000.ToString("N0") + "đ",
                                         priceFont,
                                         priceBrush,
                                         new PointF(1 + frameBitmap.Width / 2,
-                                                   1 + 100 + 325 + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", noteFont).Height + 40 + frameGraphic.MeasureString("Y", contentFont).Height + 40 + lines * pSize.Height + 40),
+                                                   1 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35 + pSize.Height + 35),
                                         StrFormat);
+                //-----------------------------------------------------------------------------------------
+
+
+
+                //Round corner
+                //-----------------------------------------------------------------------------------------
+                int CornerRadius = 18;
+                CornerRadius *= 2;
+                Bitmap RoundedImage = new Bitmap(frameBitmap.Width, frameBitmap.Height);
+
+                using (Graphics g = Graphics.FromImage(RoundedImage))
+                {
+                    g.Clear(Color.White);
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    Brush brush = new TextureBrush(frameBitmap);
+                    GraphicsPath gp = new GraphicsPath();
+                    gp.AddArc(0, 0, CornerRadius, CornerRadius, 180, 90);
+                    gp.AddArc(0 + RoundedImage.Width - CornerRadius, 0, CornerRadius, CornerRadius, 270, 90);
+                    gp.AddArc(0 + RoundedImage.Width - CornerRadius, 0 + RoundedImage.Height - CornerRadius, CornerRadius, CornerRadius, 0, 90);
+                    gp.AddArc(0, 0 + RoundedImage.Height - CornerRadius, CornerRadius, CornerRadius, 90, 90);
+                    g.FillPath(brush, gp);
+                }
+
+                frameBitmap = RoundedImage;
+                //-----------------------------------------------------------------------------------------
+
+
+                //Set transparent background(Corner only)
+                //-----------------------------------------------------------------------------------------
+                //frameBitmap.MakeTransparent();
+                //for (int x = 0; x < frameBitmap.Width; x++)
+                //{
+                //    for (int y = 0; y < frameBitmap.Height; y++)
+                //    {
+                //        Color currentColor = frameBitmap.GetPixel(x, y);
+                //        if (currentColor.R >= 220 && currentColor.G >= 220 && currentColor.B >= 220)
+                //        {
+                //            frameBitmap.SetPixel(x, y, Color.Transparent);
+                //        }
+                //    }
+                //}
+                for (int x = 0; x < 18; x++)
+                {
+                    for (int y = frameBitmap.Height - 18; y < frameBitmap.Height; y++)
+                    {
+                        Color currentColor = frameBitmap.GetPixel(x, y);
+                        if (currentColor.R >= 220 && currentColor.G >= 220 && currentColor.B >= 220)
+                        {
+                            frameBitmap.SetPixel(x, y, Color.Transparent);
+                        }
+                    }
+                }
+
+                for (int x = 656 - 18; x < 656; x++)
+                {
+                    for (int y = frameBitmap.Height - 18; y < frameBitmap.Height; y++)
+                    {
+                        Color currentColor = frameBitmap.GetPixel(x, y);
+                        if (currentColor.R >= 220 && currentColor.G >= 220 && currentColor.B >= 220)
+                        {
+                            frameBitmap.SetPixel(x, y, Color.Transparent);
+                        }
+                    }
+                }
                 //-----------------------------------------------------------------------------------------
                 #endregion
 
