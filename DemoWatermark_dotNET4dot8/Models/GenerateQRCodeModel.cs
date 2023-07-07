@@ -24,4 +24,10 @@ namespace DemoWatermark_dotNET4dot8.Models
         public string WebRootPath { get; set; }
         public string ContentRootPath { get; set; }
     }
+
+    public class ItemInfo
+    {
+        public string fileName { get; set; }
+        public string fileData { get; set; }
+    }
 }

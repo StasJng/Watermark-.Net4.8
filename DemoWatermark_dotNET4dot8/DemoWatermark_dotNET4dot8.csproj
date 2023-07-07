@@ -367,6 +367,7 @@
     <Content Include="wwwroot\assets\img\logo.png" />
     <Content Include="wwwroot\assets\img\new-frame-footer-656-177.png" />
     <Content Include="wwwroot\assets\img\new-frame-header-656-100.png" />
+    <Content Include="wwwroot\assets\img\ticket_frame.png" />
     <Content Include="wwwroot\assets\watermark\watermark.png" />
     <Content Include="wwwroot\assets\watermark\watermark_photo.png" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

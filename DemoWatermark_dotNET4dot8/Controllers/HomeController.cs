@@ -37,15 +37,15 @@ namespace DemoWatermark_dotNET4dot8.Controllers
             return View();
         }
         #endregion
-        public string CreateQRCodeJob(string stringCode)
+        public JsonResult CreateQRCodeJob(string stringCode)
         {
-            if (string.IsNullOrEmpty(stringCode)) return "";
+            if (string.IsNullOrEmpty(stringCode)) return null;
 
             try
             {
                 #region Generate QR Image
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(stringCode, QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode("DT909009909123", QRCodeGenerator.ECCLevel.Q);
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeBitmap = qrCode.GetGraphic(20);
                 qrCodeBitmap.SetResolution(100, 100);
@@ -252,6 +252,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //        }
                 //    }
                 //}
+
                 for (int x = 0; x < 18; x++)
                 {
                     for (int y = frameBitmap.Height - 18; y < frameBitmap.Height; y++)
@@ -282,13 +283,18 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 using (MemoryStream msDemo = new MemoryStream())
                 {
                     frameBitmap.Save(msDemo, System.Drawing.Imaging.ImageFormat.Png);
-                    return ("data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray()));
+                    //frameBitmap.Save("C:\\Users\\User\\Downloads\\imgService.Png"); --Save to server
+                    ItemInfo fileInfo = new ItemInfo();
+                    fileInfo.fileName = "img_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
+                    fileInfo.fileData = "data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray());
+
+                    return Json(fileInfo, JsonRequestBehavior.AllowGet);
                 }
                 #endregion
             }
             catch
             {
-                return "";
+                return null;
             }
         }
         public string UploadFileThenGenQR()

@@ -56,7 +56,7 @@
             </div>
         </div>
         <div id="singleImgDownload" class="container pos-center" style="visibility: hidden">
-            <a id="downloadImageButton" href="" download="ticket.png" class="btn btn-primary">Download</a>
+            <a id="downloadImageButton" href="" download="imgService.png" class="btn btn-primary" style="display: none">Download</a>
         </div>
         <!---->
         <!--List images-->
@@ -79,8 +79,10 @@
                 success: function (data) {
                     document.getElementById('singleImgFrame').style.visibility = "visible";
                     document.getElementById('singleImgDownload').style.visibility = "visible";
-                    document.getElementById('codeImage').setAttribute("src", data);
-                    document.getElementById('downloadImageButton').setAttribute("href", data);
+                    document.getElementById('codeImage').setAttribute("src", data.fileData);
+                    document.getElementById('downloadImageButton').setAttribute("download", data.fileName);
+                    document.getElementById('downloadImageButton').setAttribute("href", data.fileData);
+                    document.getElementById('downloadImageButton').click();
                 },
                 error: function () {
                     $("#loading").hide();
