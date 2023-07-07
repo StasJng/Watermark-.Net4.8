@@ -49,7 +49,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 QRCode qrCode = new QRCode(qrCodeData);
                 Bitmap qrCodeBitmap = qrCode.GetGraphic(20);
                 qrCodeBitmap.SetResolution(100, 100);
-                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(375, 375));
+                Bitmap qrCodeBitmapResized = new Bitmap(qrCodeBitmap, new Size(430, 430));
                 #endregion
 
                 #region Check name's width and get lines
@@ -74,20 +74,20 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 Graphics frameGraphic = Graphics.FromImage(frameBitmap);
                 frameGraphic.Clear(Color.White);
 
-                //Draw header
-                Image headerImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/new-frame-header-656-100.png"));
-                frameGraphic.DrawImage(headerImage, 0, 0);
-
                 //Draw footer
                 Image footerImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/new-frame-footer-656-177.png"));
                 frameGraphic.DrawImage(footerImage, 0, (int)(1028 + pSize.Height) - 177);
 
                 //Draw QR
-                frameGraphic.DrawImage(qrCodeBitmapResized, frameBitmap.Width / 2 - qrCodeBitmapResized.Width / 2, 80);
+                frameGraphic.DrawImage(qrCodeBitmapResized, frameBitmap.Width / 2 - qrCodeBitmapResized.Width / 2, 50);
+
+                //Draw header
+                Image headerImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/new-frame-header-656-100.png"));
+                frameGraphic.DrawImage(headerImage, 0, 0);
 
                 //Draw logo
                 Image logoImage = Image.FromFile(Path.Combine(_environment.WebRootPath, "assets/img/logo.png"));
-                frameGraphic.DrawImage(logoImage, (frameBitmap.Width / 2 - 32), 80 + qrCodeBitmapResized.Height / 2 - 32, 64, 64);
+                frameGraphic.DrawImage(logoImage, (frameBitmap.Width / 2 - 32), 50 + qrCodeBitmapResized.Height / 2 - 32, 64, 64);
                 #endregion
 
                 #region Watermark text
@@ -196,7 +196,7 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //-----------------------------------------------------------------------------------------
                 var priceColor = System.Drawing.ColorTranslator.FromHtml("#F7941D");
                 SolidBrush priceBrush = new SolidBrush(priceColor); //SolidBrush codeBrush = new SolidBrush(Color.Black);
-                Font priceFont = new Font("Roboto", 48, FontStyle.Bold);
+                Font priceFont = new Font("Roboto", 45, FontStyle.Bold);
 
                 frameGraphic.DrawString(900000.ToString("N0") + "đ",
                                         priceFont,
