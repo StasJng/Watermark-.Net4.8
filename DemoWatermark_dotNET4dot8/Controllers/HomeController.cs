@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -145,8 +146,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 frameGraphic.DrawString("DT909009909123",
                                         contentFont,
                                         codeBrush,
-                                        new PointF(8 / 10 + frameBitmap.Width / 2,
-                                                   2 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35),
+                                        new PointF(5 / 10 + frameBitmap.Width / 2,
+                                                   1 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35),
                                                    StrFormat);
                 //-----------------------------------------------------------------------------------------
 
@@ -160,8 +161,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                                                       frameBitmap.Width - 64, 
                                                       lines * pSize.Height);
 
-                RectangleF rectFrame2 = new RectangleF(8 / 10 + 32,
-                                                       2 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35,
+                RectangleF rectFrame2 = new RectangleF(5 / 10 + 32,
+                                                       1 / 10 + 100 + 325 + 35 + frameGraphic.MeasureString("Y", noteFont).Height + 35 + frameGraphic.MeasureString("Y", contentFont).Height + 35,
                                                        frameBitmap.Width - 64,
                                                        lines * pSize.Height);
 
@@ -279,14 +280,31 @@ namespace DemoWatermark_dotNET4dot8.Controllers
                 //-----------------------------------------------------------------------------------------
                 #endregion
 
+
+
+                Bitmap multipleFrameBitmap = new Bitmap(656, (int)(1028 + pSize.Height) * 1);
+
+                Graphics multipleframeGraphic = Graphics.FromImage(multipleFrameBitmap);
+
+                for (int i = 0; i < 2; i++)
+                {
+                    multipleframeGraphic.DrawImage(frameBitmap, 0, frameBitmap.Height * i);
+                }
+
                 #region Use memorystream to display image
                 using (MemoryStream msDemo = new MemoryStream())
                 {
-                    frameBitmap.Save(msDemo, System.Drawing.Imaging.ImageFormat.Png);
+                    multipleFrameBitmap.Save(msDemo, System.Drawing.Imaging.ImageFormat.Png);
                     //frameBitmap.Save("C:\\Users\\User\\Downloads\\imgService.Png"); --Save to server
                     ItemInfo fileInfo = new ItemInfo();
                     fileInfo.fileName = "img_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
                     fileInfo.fileData = "data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray());
+
+                    #region TETSING uing byte data
+                    ImageConverter converter = new ImageConverter();
+                    byte[] byteData =  (byte[])converter.ConvertTo(multipleFrameBitmap, typeof(byte[]));
+                    ViewBag.fileData = "data:image/png;base64," + Convert.ToBase64String(msDemo.ToArray()); ;
+                    #endregion
 
                     return Json(fileInfo, JsonRequestBehavior.AllowGet);
                 }

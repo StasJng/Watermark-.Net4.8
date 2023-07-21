@@ -200,8 +200,8 @@ D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotN
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Newtonsoft.Json.xml
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Antlr3.Runtime.pdb
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.AssemblyReference.cache
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.CoreCompileInputs.cache
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.CopyComplete
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.dll
 D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.pdb
+D:\2_demo_project\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.AssemblyReference.cache

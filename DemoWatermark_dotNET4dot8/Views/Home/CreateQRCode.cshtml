@@ -24,7 +24,7 @@
 
 <h1>CreateQRCode</h1>
 
-<div id ="container" class="row">
+<div id="container" class="row">
     <div class="">
         <!--Text input form-->
         <div class="form-group">
@@ -37,8 +37,8 @@
         <br />
         <!--Upload file input form-->
         @*<h2>Import file and generate QR:</h2>
-        <input type="file" id="myFile" name="file" />
-        <button class="btn btn-primary" onclick="uploadFileThenGenQR('myFile');">Upload File & Gen QR</button>*@
+            <input type="file" id="myFile" name="file" />
+            <button class="btn btn-primary" onclick="uploadFileThenGenQR('myFile');">Upload File & Gen QR</button>*@
 
 
         @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -63,9 +63,14 @@
         <div id="listImgFrame" class="row" style="margin: 10px 0 0 0; visibility: hidden"></div>
         <!---->
     </div>
+
 </div>
 
 <script>
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     function generateQR(inputId) {
         if (document.getElementById(inputId).value != null) {
             var stringCode = document.getElementById(inputId).value;
@@ -82,7 +87,18 @@
                     document.getElementById('codeImage').setAttribute("src", data.fileData);
                     document.getElementById('downloadImageButton').setAttribute("download", data.fileName);
                     document.getElementById('downloadImageButton').setAttribute("href", data.fileData);
-                    document.getElementById('downloadImageButton').click();
+                    //document.getElementById('downloadImageButton').click();
+
+                    let downloadFunc = function () {
+                        let i = 1;
+                        while (i <= 5) {
+                            (function (i) {
+                                downloadImage(data.fileData, i);
+                            })(i++)
+                        }
+                    };
+
+                    downloadFunc();
                 },
                 error: function () {
                     $("#loading").hide();
@@ -123,4 +139,66 @@
             }
         );
     }*@
+
+    async function downloadImage(imageSrc, i) {
+        const response = await fetch(imageSrc);
+        const blobImage = await response.blob();
+        const href = URL.createObjectURL(blobImage);
+
+
+        let newWin = window.open(href);
+        const newWinAnchor = document.createElement('a');
+        newWinAnchor.href = href;
+        newWinAnchor.download = 'img-' + i;
+        newWinAnchor.target = '_blank';
+
+        @*newWinAnchor.body.appendChild(newWinAnchor);*@
+        newWinAnchor.onload = function () { this.document.body.appendChild(newWinAnchor); };
+
+        newWinAnchor.dispatchEvent(
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            })
+        );
+
+
+        @*const anchorElement = document.createElement('a');
+        anchorElement.href = href;
+        anchorElement.download = 'img-' + i;
+        anchorElement.target = '_blank';
+
+        document.body.appendChild(anchorElement);
+
+        anchorElement.dispatchEvent(
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            })
+        );*@
+
+        @*setTimeout(() => {
+            
+        }, 100);*@
+
+        window.URL.revokeObjectURL(href);
+        @*anchorElement.remove();*@
+        newWin.close();
+
+        //anchorElement.click();
+
+
+        @*let newWin = window.open('https://www.google.com');
+        const anchorElement = newWin.createElement('a');
+        newWin.href = href;
+        newWin.download = nameOfDownload;
+        newWin.target = '_blank';
+
+        newWin.body.appendChild(anchorElement);
+        anchorElement.click();*@
+        //document.body.removeChild(anchorElement);
+        //window.URL.revokeObjectURL(href);
+    }
 </script>
