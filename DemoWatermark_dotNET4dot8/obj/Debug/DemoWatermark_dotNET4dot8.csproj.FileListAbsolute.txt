@@ -258,7 +258,6 @@ E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWat
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\roslyn\VBCSCompiler.exe
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\roslyn\VBCSCompiler.exe.config
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Antlr3.Runtime.dll
-E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\BitMiracle.LibTiff.NET.dll
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.Html.Abstractions.dll
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.Razor.dll
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.Razor.Language.dll
@@ -299,7 +298,6 @@ E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWat
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\System.Web.WebPages.dll
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\System.Web.WebPages.Razor.dll
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\WebGrease.dll
-E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\BitMiracle.LibTiff.NET.xml
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.ResponseCaching.Abstractions.xml
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.Razor.Runtime.xml
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.AspNetCore.Razor.Language.xml
@@ -329,7 +327,6 @@ E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWat
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Newtonsoft.Json.xml
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Antlr3.Runtime.pdb
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.AssemblyReference.cache
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.CoreCompileInputs.cache
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.csproj.CopyComplete
 E:\99-DemoQRGenerator.Net4.8\DemoWatermark_dotNET4dot8\Watermark-.Net4.8\DemoWatermark_dotNET4dot8\obj\Debug\DemoWatermark_dotNET4dot8.dll
