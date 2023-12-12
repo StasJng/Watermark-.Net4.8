@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
-namespace DemoWatermark_dotNET4dot8.Models
+﻿namespace DemoWatermark_dotNET4dot8.Models
 {
     public class GenerateQRCodeModel
     {
-        [Display(Name = "Enter QR Code Text")]
-        public string QRCodeText { get; set; }
+        public string title { get; set; }
+        public string code { get; set; }
+        public string status { get; set; }
+        public string price { get; set; }
+        public string expDate { get; set; }
+
     }
 
     public class DisplayingCodeInfo
@@ -17,12 +15,6 @@ namespace DemoWatermark_dotNET4dot8.Models
         public int No { get; set; }
         public string QRCodeUri { get; set; }
         public string LinkDownload { get; set; }
-    }
-
-    public class SelfDefinedEnvironment
-    {
-        public string WebRootPath { get; set; }
-        public string ContentRootPath { get; set; }
     }
 
     public class ItemInfo

@@ -28,18 +28,25 @@
     <div class="">
         <!--Text input form-->
         <div class="form-group">
-            <input type="text" id="myInput" class="form-control" />
+            <input type="text" id="titleInput" class="form-control" placeholder="Title" />
+            <br />
+            <input type="text" id="codeInput" class="form-control" placeholder="Code"/>
+            <br />
+            <input type="text" id="priceInput" class="form-control" placeholder="Price"/>
+            <br />
+            <input type="date" id="expDate" class="form-control" placeholder="Expired Date" onclick="expDate.showPicker()" />
+            <br />
+            <select id="curStatus">
+                <option value="0" selected>Avaiable</option>
+                <option value="1">Used</option>
+                <option value="2">Others</option>
+            </select>
         </div>
         <div class="form-group">
             <input value="Generate QR Code" class="btn btn-primary" onclick="generateQR('myInput')" />
         </div>
         <!---->
         <br />
-        <!--Upload file input form-->
-        @*<h2>Import file and generate QR:</h2>
-            <input type="file" id="myFile" name="file" />
-            <button class="btn btn-primary" onclick="uploadFileThenGenQR('myFile');">Upload File & Gen QR</button>*@
-
 
         @using (Html.BeginForm("UploadFileThenGenQR", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -72,73 +79,45 @@
     }
 
     function generateQR(inputId) {
-        if (document.getElementById(inputId).value != null) {
-            var stringCode = document.getElementById(inputId).value;
-            console.log(stringCode);
+        var title = document.getElementById('titleInput').value;
+        var stringCode = document.getElementById('codeInput').value;
+        var price = document.getElementById('priceInput').value;
+        var curStatus = document.getElementById('curStatus').value;
+        var expDate = document.getElementById('expDate').value;
 
-            $.ajax({
-                url: "/Home/CreateQRCodeJob",
-                data: {
-                    stringCode: stringCode
-                },
-                success: function (data) {
-                    document.getElementById('singleImgFrame').style.visibility = "visible";
-                    document.getElementById('singleImgDownload').style.visibility = "visible";
-                    document.getElementById('codeImage').setAttribute("src", data.fileData);
-                    document.getElementById('downloadImageButton').setAttribute("download", data.fileName);
-                    document.getElementById('downloadImageButton').setAttribute("href", data.fileData);
-                    //document.getElementById('downloadImageButton').click();
+        $.ajax({
+            url: "/Home/CreateQRCodeJob",
+            data: {
+                title: title,
+                stringCode: stringCode,
+                price: price,
+                curStatus: curStatus,
+                expDate: expDate
+            },
+            success: function (data) {
+                document.getElementById('singleImgFrame').style.visibility = "visible";
+                document.getElementById('singleImgDownload').style.visibility = "visible";
+                document.getElementById('codeImage').setAttribute("src", data.fileData);
+                document.getElementById('downloadImageButton').setAttribute("download", data.fileName);
+                document.getElementById('downloadImageButton').setAttribute("href", data.fileData);
 
-                    let downloadFunc = function () {
-                        let i = 1;
-                        while (i <= 5) {
-                            (function (i) {
-                                downloadImage(data.fileData, i);
-                            })(i++)
-                        }
-                    };
+                let downloadFunc = function () {
+                    let i = 1;
+                    while (i <= 5) {
+                        (function (i) {
+                            downloadImage(data.fileData, i);
+                        })(i++)
+                    }
+                };
 
-                    //downloadFunc();
-                },
-                error: function () {
-                    $("#loading").hide();
-                    alert("Có lỗi xảy ra!");
-                }
-            });
-        }
-    }
-
-    @*function uploadFileThenGenQR(inputId) {
-        let fileElement = document.getElementById(inputId)
-
-        // check if user had selected a file
-        if (fileElement.files.length === 0) {
-            alert('please choose a file')
-            return
-        }
-
-        let file = fileElement.files[0]
-        let formData = new FormData();
-        formData.set('file', file);
-
-        console.log(formData);
-        console.log(typeof(formData));
-
-        $.ajax(
-            {
-                url: "/Home/UploadFileThenGenQR",
-                data: {
-                    file: formData
-                },
-                cache: false,
-                processData: false,
-                success: function (data) {
-                    document.getElementById('listImgFrame').style.visibility = "visible";
-                    $("#listImgFrame").append(data);
-                }
+                //downloadFunc();
+            },
+            error: function () {
+                $("#loading").hide();
+                alert("Có lỗi xảy ra!");
             }
-        );
-    }*@
+        });
+    }
 
     async function downloadImage(imageSrc, i) {
         const response = await fetch(imageSrc);
