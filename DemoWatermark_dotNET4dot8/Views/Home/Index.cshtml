@@ -1,37 +1,4 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Welcome!";
 }
-
-<div class="row">
-    <div class="">
-        @if (ViewBag.listDisplay != null && ViewBag.listDisplay.Count > 0)
-        {
-            <div class="row" style="margin: 10px 0 0 0">
-                @foreach (var item in ViewBag.listDisplay)
-                {
-                    <div class="col-lg-3 col-md-4 col-sm-12 box-qr">
-                        <div class="container pos-center">
-                            <div class="form-group">
-                                <img src="@item.QRCodeUri" class="img-thumbnail" />
-                            </div>
-                        </div>
-                        <div class="container pos-center">
-                            <a id="download + @item.No" style="" download="qr-@item.No" href="@item.LinkDownload" class="btn btn-primary">Download</a>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-        @if (ViewBag.QrCodeUri != null)
-        {
-            <div class="container pos-center">
-                <div class="form-group">
-                    <img src="@ViewBag.QrCodeUri" class="img-thumbnail" />
-                </div>
-            </div>
-            <div class="container pos-center">
-                <a id="download" style="" download="qr-code" href="@ViewBag.linkDownload" class="btn btn-primary">Download</a>
-            </div>
-        }
-    </div>
-</div>
+<h2>@ViewBag.Title</h2>
