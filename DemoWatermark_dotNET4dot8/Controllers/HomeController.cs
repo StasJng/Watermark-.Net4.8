@@ -327,6 +327,8 @@ namespace DemoWatermark_dotNET4dot8.Controllers
             {
                 try
                 {
+                    ///Note:
+                    ///Columns: "id", "code", "title", "status",	"expdate", "price"
                     #region Upload file
                     //  Get all files from Request object  
                     HttpFileCollectionBase files = Request.Files;
